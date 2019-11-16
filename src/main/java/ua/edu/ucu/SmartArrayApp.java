@@ -1,8 +1,6 @@
 package ua.edu.ucu;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import ua.edu.ucu.functions.MyComparator;
 import ua.edu.ucu.functions.MyFunction;

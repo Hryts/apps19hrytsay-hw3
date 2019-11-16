@@ -1,6 +1,5 @@
 package ua.edu.ucu.smartarr;
 
-import ua.edu.ucu.functions.MyComparator;
 import ua.edu.ucu.functions.MyFunction;
 
 import java.util.Arrays;
