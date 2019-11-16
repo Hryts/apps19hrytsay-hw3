@@ -1,9 +1,13 @@
 package ua.edu.ucu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import ua.edu.ucu.functions.MyComparator;
 import ua.edu.ucu.functions.MyFunction;
 import ua.edu.ucu.functions.MyPredicate;
+import ua.edu.ucu.smartarr.*;
 
 public class SmartArrayApp {
 
@@ -51,9 +55,59 @@ public class SmartArrayApp {
     public static String[]
             findDistinctStudentNamesFrom2ndYearWithGPAgt4AndOrderedBySurname(Student[] students) {
 
-        // Hint: to convert Object[] to String[] - use the following code
-        //Object[] result = studentSmartArray.toArray();
-        //return Arrays.copyOf(result, result.length, String[].class);
-        return null;
+        MyPredicate year = new MyPredicate() {
+            @Override
+            public boolean test(Object t) {
+                return ((Student)t).getYear() == 2;
+            }
+        };
+        MyPredicate gpa = new MyPredicate() {
+            @Override
+            public boolean test(Object t) {
+                return ((Student)t).getGPA() >= 4;
+            }
+        };
+        MyComparator bySurname = new MyComparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                String surname1 = ((Student)o1).getSurname();
+                String surname2 = ((Student)o2).getSurname();
+                int res = String.CASE_INSENSITIVE_ORDER.compare(
+                        surname1, surname2
+                );
+                if (res == 0) {
+                    res = surname1.compareTo(surname2);
+                }
+                return res;
+            }
+        };
+        MyFunction getName = new MyFunction() {
+            @Override
+            public Object apply(Object t) {
+                return ((Student)t).getName();
+            }
+        };
+        MyFunction toStr = new MyFunction() {
+            @Override
+            public Object apply(Object t) {
+                return (String)(((Student)t).getName() + ((Student) t).getSurname());
+            }
+        };
+
+        SmartArray studentSmartArray = new BaseArray(students);
+        studentSmartArray = new FilterDecorator(studentSmartArray, year);
+        studentSmartArray = new FilterDecorator(studentSmartArray, gpa);
+        studentSmartArray = new SortDecorator(studentSmartArray, bySurname);
+        studentSmartArray = new DistinctDecorator(studentSmartArray, getName);
+        Object[] studentsArray =  studentSmartArray.toArray();
+
+        String[] result = new String[studentSmartArray.size()];
+        for (int i = 0; i < studentSmartArray.size(); ++i) {
+            Object student = studentsArray[i];
+            result[i] = (String)(((Student)student).getSurname() + " " +
+                    ((Student) student).getName());
+        }
+
+        return result;
     }
 }
