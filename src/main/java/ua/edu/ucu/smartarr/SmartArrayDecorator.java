@@ -3,7 +3,7 @@ package ua.edu.ucu.smartarr;
 abstract class SmartArrayDecorator implements SmartArray {
 
     //    protected SmartArray smartArray;
-    private Object[] array;
+    protected Object[] array;
 
     public SmartArrayDecorator(SmartArray smartArray) {
 //        this.smartArray = smartArray;
