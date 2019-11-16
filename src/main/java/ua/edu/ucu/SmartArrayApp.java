@@ -87,12 +87,6 @@ public class SmartArrayApp {
                 return ((Student)t).getName();
             }
         };
-        MyFunction toStr = new MyFunction() {
-            @Override
-            public Object apply(Object t) {
-                return (String)(((Student)t).getName() + ((Student) t).getSurname());
-            }
-        };
 
         SmartArray studentSmartArray = new BaseArray(students);
         studentSmartArray = new FilterDecorator(studentSmartArray, year);
